@@ -1,0 +1,20 @@
+# Виртуальные окружения
+.venv/
+venv/
+env/
+
+# Кэш Python
+__pycache__/
+*.pyc
+
+# Файлы настроек редакторов
+.vscode/
+.idea/
+
+# Переменные окружения с секретами
+.env
+
+# dbt
+target/
+dbt_packages/
+logs/

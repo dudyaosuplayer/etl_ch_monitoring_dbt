@@ -44,10 +44,13 @@ services:
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__CORE__FERNET_KEY: "ZBU0ZjCkTyj83ogxMj-r61MgEt1ud57vppfF-N0dSHY="
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      _PIP_ADDITIONAL_REQUIREMENTS: "-r /requirements.txt" 
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data
+      - ./requirements.txt:/requirements.txt
     ports:
       - "8080:8080"
     command: webserver
@@ -60,11 +63,14 @@ services:
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-      AIRFLOW__CORE__FERNET_KEY: "test_key"
+      AIRFLOW__CORE__FERNET_KEY: "ZBU0ZjCkTyj83ogxMj-r61MgEt1ud57vppfF-N0dSHY="
+      _PIP_ADDITIONAL_REQUIREMENTS: "-r /requirements.txt" 
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data
+      - ./requirements.txt:/requirements.txt
     command: scheduler
 
 volumes:
