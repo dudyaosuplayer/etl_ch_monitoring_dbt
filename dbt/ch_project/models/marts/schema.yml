@@ -1,0 +1,69 @@
+version: 2
+
+models:
+
+  - name: dim_customers
+    description: "Dimension table with customer attributes"
+    
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - not_null
+          - unique
+
+      - name: email
+        description: "Customer email"
+        tests:
+          - not_null
+
+      - name: country
+        description: "Customer country"
+
+      - name: subscription_date
+        description: "Date of subscription"
+
+  - name: customers_by_country
+    description: "Aggregated number of customers per country"
+    
+    columns:
+      - name: country
+        description: "Country name"
+        tests:
+          - not_null
+          - unique   # одна строка на страну
+
+      - name: customers_count
+        description: "Number of customers"
+        tests:
+          - not_null
+
+  - name: customers_by_month
+    description: "Aggregated customers per month"
+    
+    columns:
+      - name: month
+        description: "Month of subscription"
+        tests:
+          - not_null
+          - unique   # одна строка на месяц
+
+      - name: customers_count
+        description: "Number of customers"
+        tests:
+          - not_null
+
+  - name: customers_by_city
+    description: "Aggregated customers by city"
+    
+    columns:
+      - name: city
+        description: "Customer`s city"
+        tests:
+          - not_null
+          - unique 
+
+      - name: customers_count
+        description: "Number of customers"
+        tests:
+          - not_null

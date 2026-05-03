@@ -1,5 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
 from datetime import datetime
 import pandas as pd
 from clickhouse_driver import Client
@@ -51,15 +52,6 @@ def load_csv_to_clickhouse():
         ORDER BY idx
     """)
 
-    # очистка
-    client.execute("TRUNCATE TABLE raw.customers")
-
-    # загрузка
-    client.execute(
-        "INSERT INTO raw.customers VALUES",
-        df.to_dict("records")
-    )
-
     client.execute("TRUNCATE TABLE raw.customers")
 
     client.execute(
@@ -79,3 +71,15 @@ with DAG(
         task_id="load_csv",
         python_callable=load_csv_to_clickhouse
     )
+
+    dbt_stage = BashOperator(
+        task_id="dbt_stage",
+        bash_command='cd /opt/dbt && dbt run --select "staging" --profiles-dir /home/***/.dbt'
+    )
+
+    dbt_mart = BashOperator(
+        task_id="dbt_mart",
+        bash_command='cd /opt/dbt && dbt run --select marts --profiles-dir /home/***/.dbt'
+    )
+
+    load_task >> dbt_stage >> dbt_mart

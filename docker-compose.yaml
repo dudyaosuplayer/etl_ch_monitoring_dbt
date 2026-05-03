@@ -59,7 +59,8 @@ services:
       - ./data:/opt/airflow/data
       - ./requirements.txt:/requirements.txt
       - ./.env:/opt/airflow/.env
-
+      - ./dbt/ch_project:/opt/dbt
+      - ./dbt/profiles.yml:/home/airflow/.dbt/profiles.yml
     ports:
       - "8080:8080"
 
@@ -88,6 +89,8 @@ services:
       - ./data:/opt/airflow/data
       - ./requirements.txt:/requirements.txt
       - ./.env:/opt/airflow/.env
+      - ./dbt/ch_project:/opt/dbt
+      - ./.dbt/profiles.yml:/home/airflow/.dbt/profiles.yml
 
     command: scheduler
 
