@@ -1,5 +1,3 @@
-{{ config(materialized='table') }}
-
 select
     toStartOfMonth(subscription_date) as month,
     count(*) as customers_count

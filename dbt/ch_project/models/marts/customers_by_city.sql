@@ -1,5 +1,3 @@
-{{ config(materialized='table') }}
-
 select
     city,
     count(*) as customers_count

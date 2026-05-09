@@ -9,7 +9,6 @@ from clickhouse_driver import Client
 def load_csv_to_clickhouse():
     df = pd.read_csv("/opt/airflow/data/customers.csv")
 
-    # переименование колонок
     df.columns = [
         "idx",
         "customer_id",
@@ -30,9 +29,9 @@ def load_csv_to_clickhouse():
     ).dt.date
 
     client = Client(host="clickhouse")
-    # создание DB
+
     client.execute("CREATE DATABASE IF NOT EXISTS raw")
-    # создание таблицы
+
     client.execute("""
         CREATE TABLE IF NOT EXISTS raw.customers (
             idx UInt32,
@@ -72,14 +71,4 @@ with DAG(
         python_callable=load_csv_to_clickhouse
     )
 
-    dbt_stage = BashOperator(
-        task_id="dbt_stage",
-        bash_command='cd /opt/dbt && dbt run --select "staging" --profiles-dir /home/***/.dbt'
-    )
-
-    dbt_mart = BashOperator(
-        task_id="dbt_mart",
-        bash_command='cd /opt/dbt && dbt run --select marts --profiles-dir /home/***/.dbt'
-    )
-
-    load_task >> dbt_stage >> dbt_mart
+    load_task

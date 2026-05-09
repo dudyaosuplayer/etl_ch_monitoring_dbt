@@ -67,3 +67,13 @@ models:
         description: "Number of customers"
         tests:
           - not_null
+
+  - name: fct_orders
+    description: "Fact orders table"
+    
+    columns:
+      - name: order_id
+        description: "Order`s ID"
+        tests:
+          - not_null
+          - unique 

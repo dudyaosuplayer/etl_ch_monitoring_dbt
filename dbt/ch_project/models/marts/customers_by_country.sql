@@ -1,5 +1,3 @@
-{{ config(materialized='table') }}
-
 select
     country,
     count(*) as customers_count

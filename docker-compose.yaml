@@ -21,6 +21,8 @@ services:
       - "3000:3000"
     depends_on:
       - clickhouse
+    environment:
+      GF_INSTALL_PLUGINS: grafana-clickhouse-datasource 
     volumes:
       - grafana_data:/var/lib/grafana
 
@@ -35,7 +37,7 @@ services:
       POSTGRES_DB: airflow
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+      
   airflow-webserver:
     image: apache/airflow:2.9.1
     container_name: airflow_webserver
@@ -44,6 +46,8 @@ services:
 
     env_file:
       - .env
+
+    user: "${AIRFLOW_UID}:0"
 
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
@@ -75,6 +79,8 @@ services:
     env_file:
       - .env
 
+    user: "${AIRFLOW_UID}:0"
+
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres/airflow
@@ -90,7 +96,7 @@ services:
       - ./requirements.txt:/requirements.txt
       - ./.env:/opt/airflow/.env
       - ./dbt/ch_project:/opt/dbt
-      - ./.dbt/profiles.yml:/home/airflow/.dbt/profiles.yml
+      - ./dbt/profiles.yml:/home/airflow/.dbt/profiles.yml
 
     command: scheduler
 

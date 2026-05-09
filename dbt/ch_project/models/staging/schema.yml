@@ -4,6 +4,7 @@ sources:
   - name: raw
     tables:
       - name: customers
+      - name: orders
       
 models:
   - name: stg_customers
@@ -11,5 +12,12 @@ models:
     columns:
       - name: customer_id
         description: "Unique customer id"
+        tests:
+          - not_null
+  - name: stg_orders
+    description: "Staging table for orders"
+    columns:
+      - name: order_id
+        description: "Unique order id"
         tests:
           - not_null

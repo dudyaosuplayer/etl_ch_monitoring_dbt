@@ -2,3 +2,4 @@ pandas==2.2.2
 clickhouse-driver==0.2.7
 dbt-core==1.7.14
 dbt-clickhouse==1.7.2
+faker==25.2.0
