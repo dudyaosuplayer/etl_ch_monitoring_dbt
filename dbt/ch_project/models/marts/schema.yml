@@ -77,3 +77,12 @@ models:
         tests:
           - not_null
           - unique 
+
+  - name: mart_customer_sales
+    description: "Customer analytics mart"
+
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
